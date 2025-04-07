@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Каталог новостей Info to Go{% endblock %}
+
+{% block content %}
+    {% include "include/search_form.html" %}
+    <h1 class="text-center mb-4"></h1>
+
+    <div class="row">
+        {% include "include/paginator.html" with page=page_obj %}
+
+        {% for article in page_obj %}
+            {% include "include/article_preview.html" with article=article %}
+        {% endfor %}
+
+        {% include "include/paginator.html" with page=page_obj %}
+    </div>
+{% endblock %}
