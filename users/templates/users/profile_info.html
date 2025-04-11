@@ -1,0 +1,13 @@
+{% extends 'users/profile_base.html' %}
+{% block profile_content %}
+<p><strong>Имя:</strong> {{ user.first_name }}</p>
+<p><strong>Фамилия:</strong> {{ user.last_name }}</p>
+<p><strong>Email:</strong> {{ user.email }}</p>
+
+
+{% if profile.avatar %}
+<!--    <img src="{{ profile.avatar.url }}" alt="Аватар" width="100">-->
+{% else %}
+    <p>Аватар не установлен.</p>
+{% endif %}
+{% endblock %}
