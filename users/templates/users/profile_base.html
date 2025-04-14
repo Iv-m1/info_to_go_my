@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Профиль: {{ user.username }}</h2>
+<nav>
+    <ul>
+        <li><a href="{% url 'users:profile' %}">Информация</a></li>
+        <li><a href="{% url 'users:user_articles' %}">Мои статьи</a></li>
+        <li><a href="{% url 'users:profile_activity' %}">История действий</a></li>
+    </ul>
+</nav>
+<hr>
+{% block profile_content %}{% endblock %}
+{% endblock %}

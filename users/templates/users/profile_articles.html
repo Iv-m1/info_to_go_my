@@ -1,0 +1,25 @@
+{% extends 'users/profile_base.html' %}
+{% block profile_content %}
+<h3>Мои статьи</h3>
+<ul>
+  {% for article in articles %}
+    <li>
+      <a href="{% url 'news:detail_article_by_id' article.pk %}">{{ article.title }}</a>
+    </li>
+  {% empty %}
+    <p>У вас нет опубликованных статей.</p>
+  {% endfor %}
+</ul>
+
+{% if is_paginated %}
+  <div class="pagination">
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}">Назад</a>
+    {% endif %}
+    <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">Вперёд</a>
+    {% endif %}
+  </div>
+{% endif %}
+{% endblock %}

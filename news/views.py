@@ -350,3 +350,6 @@ class ArticleDeleteView(LoginRequiredMixin, BaseMixin, DeleteView):
         if self.request.user.is_superuser or self.request.user.groups.filter(name="Moderator").exists():
             return qs
         return qs.filter(author=self.request.user)
+
+
+
