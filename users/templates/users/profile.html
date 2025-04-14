@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">Профиль пользователя</h1>
+
+<div class="tabs-container">
+    <div class="tab-nav">
+        <button class="tab-link active" onclick="showTab('info', this)">Информация</button>
+        <button class="tab-link" onclick="showTab('articles', this)">Мои статьи</button>
+        <button class="tab-link" onclick="showTab('activity', this)">История действий</button>
+    </div>
+
+    <div class="tab-content">
+        <div id="info" class="tab-panel active">
+            <h2>Информация</h2>
+            <p><strong>Имя:</strong> {{ user.first_name|default:"(не указано)" }}</p>
+            <p><strong>Фамилия:</strong> {{ user.last_name|default:"(не указано)" }}</p>
+            <p><strong>Логин:</strong> {{ user.username }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><a href="">Сменить пароль</a></p>
+            {% if user.profile.avatar %}
+                <img src="{{ user.profile.avatar.url }}" alt="Avatar" width="150">
+            {% else %}
+                <p>Аватар не установлен</p>
+            {% endif %}
+        </div>
+
+        <div id="articles" class="tab-panel">
+            <h2>Мои статьи</h2>
+            {% if articles %}
+                <ul>
+                    {% for article in articles %}
+                        <li><a href="{% url 'news:detail_article_by_id' article.pk %}">{{ article.title }}</a> — {{ article.created_at|date:"d.m.Y" }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>У вас нет опубликованных статей.</p>
+            {% endif %}
+        </div>
+
+        <div id="activity" class="tab-panel">
+            <h2>История действий</h2>
+            {% if actions %}
+                <ul>
+                    {% for action in actions %}
+                        <li>{{ action.timestamp|date:"d.m.Y H:i" }} — {{ action.action }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>История действий отсутствует.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .tab-nav {
+        margin-bottom: 1em;
+    }
+
+    .tab-link {
+        background: #eee;
+        border: 1px solid #ccc;
+        padding: 0.5em 1em;
+        cursor: pointer;
+        margin-right: 5px;
+        border-radius: 6px 6px 0 0;
+        transition: background 0.3s;
+    }
+
+    .tab-link:hover {
+        background: #ddd;
+    }
+
+    .tab-link.active {
+        background: #fff;
+        border-bottom: 1px solid white;
+        font-weight: bold;
+    }
+
+    .tab-panel {
+        display: none;
+        border: 1px solid #ccc;
+        border-top: none;
+        padding: 1em;
+        border-radius: 0 6px 6px 6px;
+        background: white;
+    }
+
+    .tab-panel.active {
+        display: block;
+    }
+</style>
+
+<script>
+    function showTab(tabId, element) {
+        // Скрыть все панели
+        document.querySelectorAll('.tab-panel').forEach(panel => {
+            panel.classList.remove('active');
+        });
+
+        // Показать выбранную
+        document.getElementById(tabId).classList.add('active');
+
+        // Убрать активный класс у всех кнопок
+        document.querySelectorAll('.tab-link').forEach(link => {
+            link.classList.remove('active');
+        });
+
+        // Добавить активный класс текущей кнопке
+        element.classList.add('active');
+    }
+</script>
+{% endblock %}
